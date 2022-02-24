@@ -23,6 +23,38 @@ create database `althingi`;
 use `althingi`;
 
 --
+-- Table structure for table `Absence`
+--
+DROP TABLE IF EXISTS `Absence`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Absence` (
+  `assembly_id` int(11) NOT NULL,
+  `plenary_id` int(11) NOT NULL,
+  `congressman_abbreviation` VARCHAR(15) NOT NULL,
+  PRIMARY KEY (`assembly_id`, `plenary_id`, `congressman_abbreviation`),
+  INDEX `plenary_id_idx` (`plenary_id` ASC),
+  INDEX `abbreviation_idx` (`congressman_abbreviation` ASC),
+  CONSTRAINT `assembly_id`
+  FOREIGN KEY (`assembly_id`)
+  REFERENCES `Assembly` (`assembly_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `plenary_id`
+  FOREIGN KEY (`plenary_id`)
+  REFERENCES `Plenary` (`plenary_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `abbreviation`
+  FOREIGN KEY (`congressman_abbreviation`)
+  REFERENCES `Congressman` (`abbreviation`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
 -- Table structure for table `Assembly`
 --
 
@@ -142,7 +174,7 @@ DROP TABLE IF EXISTS `Committee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Committee` (
-  `committee_id` int(11) NOT NULL AUTO_INCREMENT,
+  `committee_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `first_assembly_id` int(11) NOT NULL,
   `last_assembly_id` int(11) DEFAULT NULL,
@@ -237,7 +269,7 @@ DROP TABLE IF EXISTS `Congressman`;
 CREATE TABLE `Congressman` (
   `congressman_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `abbreviation` varchar(15) DEFAULT NULL,
+  `abbreviation`  VARCHAR(15) NOT NULL,
   `birth` date NOT NULL,
   `death` date DEFAULT NULL,
   PRIMARY KEY (`congressman_id`),
@@ -575,7 +607,7 @@ DROP TABLE IF EXISTS `PlenaryAgenda`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `PlenaryAgenda` (
-  `item_id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_id` int(11) NOT NULL,
   `plenary_id` int(11) NOT NULL,
   `issue_id` int(11) NOT NULL,
   `assembly_id` int(11) NOT NULL,
@@ -684,7 +716,7 @@ CREATE TABLE `Speech` (
   `type` varchar(45) DEFAULT NULL,
   `iteration` varchar(5) DEFAULT NULL,
   `word_count` int(11) DEFAULT NULL,
-  `validated` tinyint(1) NOT NULL DEFAULT '1',
+  `validated` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`speech_id`),
   KEY `fk_Speach_Congressman1_idx` (`congressman_id`),
   KEY `fk_Speach_Plenary1_idx` (`plenary_id`,`assembly_id`),
