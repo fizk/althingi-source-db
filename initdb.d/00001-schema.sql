@@ -44,12 +44,12 @@ CREATE TABLE `Absence` (
   FOREIGN KEY (`plenary_id`)
   REFERENCES `Plenary` (`plenary_id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `abbreviation`
-  FOREIGN KEY (`congressman_abbreviation`)
-  REFERENCES `Congressman` (`abbreviation`)
-    ON DELETE CASCADE
     ON UPDATE CASCADE
+  -- ,CONSTRAINT `abbreviation`
+  -- FOREIGN KEY (`congressman_abbreviation`)
+  -- REFERENCES `Congressman` (`abbreviation`)
+  --   ON DELETE CASCADE
+  --   ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -269,7 +269,7 @@ DROP TABLE IF EXISTS `Congressman`;
 CREATE TABLE `Congressman` (
   `congressman_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `abbreviation`  VARCHAR(15) NOT NULL,
+  `abbreviation`  VARCHAR(15) NULL,
   `birth` date NOT NULL,
   `death` date DEFAULT NULL,
   PRIMARY KEY (`congressman_id`),
